@@ -1,17 +1,22 @@
 // =========================================
 // Dashboard Data (Single Dedicated Data File)
 // =========================================
-// Beginner note:
-// - Edit this file when you want to change title, colleges, courses, or students.
-// - Keep grade values to: A+, B, C, D for version 1.
+// Context source:
+// - proposal + Sprint 1 documents in this folder
+// - used only for naming and dashboard context
 
 export const dashboardData = {
   project: {
-    title: 'Predicting Student Academic Performance Using Publicly Available Educational Data',
-    subtitle: 'Simple advisor-facing dashboard using local mock data.'
+    shortTitle: 'Student Performance Advisor Dashboard',
+    fullTitle: 'Predicting Student Academic Performance Using Publicly Available Educational Data',
+    subtitle: 'Lightweight Version 1 demo for advisor-facing early support.'
+  },
+  sprintOneContext: {
+    keySignals: ['study time', 'absences', 'previous failures'],
+    note: 'Sprint 1 found these signals strongly linked with at-risk students.'
   },
   predictionNote:
-    'Note: This prediction is a basic Version 1 estimate using coursework grade only.',
+    'Version 1 uses coursework grade only. This is a quick estimate, not a full ML model.',
   colleges: [
     {
       id: 'cs',

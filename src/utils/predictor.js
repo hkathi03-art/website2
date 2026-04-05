@@ -1,13 +1,20 @@
-// Version 1 simple prediction rules.
-// This is intentionally easy to understand and update later.
+// =========================================
+// Version 1 Rules (Coursework Only)
+// =========================================
+// We keep this intentionally simple for beginners.
 
 const predictionRules = {
-  'A+': 'Likely A+ in final',
-  B: 'Likely B in final',
-  C: 'Likely C in final',
-  D: 'At-risk / Likely D in final'
+  'A+': { finalEstimate: 'Likely A+ in final', riskStatus: 'Not at-risk' },
+  B: { finalEstimate: 'Likely B in final', riskStatus: 'Not at-risk' },
+  C: { finalEstimate: 'Likely C in final', riskStatus: 'Monitor' },
+  D: { finalEstimate: 'Likely D in final', riskStatus: 'At-risk' }
 }
 
-export function predictFinalResult(courseworkGrade) {
-  return predictionRules[courseworkGrade] || 'No prediction available'
+export function predictFromCoursework(courseworkGrade) {
+  return (
+    predictionRules[courseworkGrade] || {
+      finalEstimate: 'No prediction available',
+      riskStatus: 'Unknown'
+    }
+  )
 }
