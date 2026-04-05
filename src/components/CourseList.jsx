@@ -1,4 +1,3 @@
-// Step 3: select a course inside the chosen college.
 function CourseList({ college, onBack, onSelectCourse }) {
   return (
     <section>

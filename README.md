@@ -1,83 +1,114 @@
 # Predicting Student Academic Performance Using Publicly Available Educational Data
 
-A lightweight, beginner-friendly React website that reflects the same academic-performance prediction idea from the project proposal and Sprint 1 context.
+A beginner-friendly React + Vite dashboard that shows colleges, courses, students, coursework grades, and a simple predicted final result.
 
-## Context used from project documents
-
-This simplified website uses your proposal + Sprint 1 only for naming and context:
-
-- advisor-facing dashboard concept
-- at-risk vs not-at-risk framing
-- important Sprint 1 signals: study time, absences, previous failures
-
-The implementation stays intentionally simple (Version 1 rules only).
-
-## What this website does
+## What this app does
 
 - Shows a landing page with the project title.
-- Lets the user open a simple advisor dashboard.
-- Shows 3 colleges and 2 courses per college.
+- Opens a dashboard of 3 colleges:
+  - Computer Science
+  - Engineering
+  - Business Administration
+- Shows exactly 2 courses inside each college.
 - Shows students in each course with:
-  - coursework grade
-  - predicted final estimate
-  - risk status (At-risk / Monitor / Not at-risk)
+  - Coursework grade (A+, B, C, D)
+  - Predicted final result using a simple rules-based model
 
 ## Version 1 prediction logic
 
-Version 1 uses **coursework grade only**:
+- A+ coursework → Likely A+ in final
+- B coursework → Likely B in final
+- C coursework → Likely C in final
+- D coursework → At-risk / Likely D in final
 
-- A+ → likely A+ final, Not at-risk
-- B → likely B final, Not at-risk
-- C → likely C final, Monitor
-- D → likely D final, At-risk
+## Tech stack
 
-## Project rules kept simple
+- React (frontend)
+- Vite (dev server + build)
+- Plain local JavaScript data file (easy to edit)
+- Simple CSS (no backend, no database, no login)
 
-- No backend
-- No database
-- No authentication
-- No extra libraries
-- Local editable data only
+## How to run locally
 
-## Run locally
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the app:
+   ```bash
+   npm run dev
+   ```
+3. Open the URL shown in your terminal (usually `http://localhost:5173`).
 
-```bash
-npm install
-npm run dev
-```
+## How to edit the data
 
-Then open the local URL shown in terminal (usually `http://localhost:5173`).
+All project data is in:
 
-## Edit the data (single file)
+- `src/data/academicData.js`
 
-Use this file:
+Edit this file to change:
 
-- `src/data/dashboardData.js`
+- Colleges
+- Courses
+- Students
+- Coursework grades
 
-You can edit:
+### Data format used
 
-- title/subtitle
-- colleges/courses/students
-- coursework grades
-- UI prediction note
-- Sprint 1 context note/signals
+- `colleges` (array)
+  - each college has `id`, `name`, `courses`
+- each `course` has `id`, `name`, `students`
+- each `student` has `id`, `name`, `courseworkGrade`
 
-## Update prediction behavior
+Allowed grade values for version 1:
+
+- `A+`
+- `B`
+- `C`
+- `D`
+
+## How to change prediction behavior
 
 Edit:
 
 - `src/utils/predictor.js`
 
-## Version 2 idea (later)
+You can update the mapping rules in `predictionRules`.
 
-To align more closely with Sprint 1 findings, Version 2 can add:
+## Project structure
 
-- study time
-- absences
-- previous failures
+```text
+student-performance-dashboard/
+├─ index.html
+├─ package.json
+├─ vite.config.js
+├─ src/
+│  ├─ App.jsx
+│  ├─ main.jsx
+│  ├─ styles.css
+│  ├─ data/
+│  │  └─ academicData.js
+│  ├─ utils/
+│  │  └─ predictor.js
+│  └─ components/
+│     ├─ LandingPage.jsx
+│     ├─ CollegeList.jsx
+│     ├─ CourseList.jsx
+│     └─ CourseDetail.jsx
+└─ README.md
+```
 
-Possible path:
+## Suggested Version 2 (more realistic features)
 
-1. Add these fields per student in `src/data/dashboardData.js`.
-2. Replace grade-only rules with a small weighted risk score in `src/utils/predictor.js`.
-3. Keep the same simple UI while improving prediction realism.
+In version 2, replace the simple grade-only rule with features from your Sprint 1 context:
+
+- Study time
+- Absences
+- Previous failures
+
+Potential next step:
+
+- Add these fields per student in `academicData.js`
+- Create a basic weighted scoring function in `predictor.js`
+- Show risk status: `At-risk` or `Not at-risk`
+- Later, you can plug in a trained classification model while keeping the same UI structure
