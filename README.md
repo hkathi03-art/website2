@@ -1,75 +1,93 @@
 # Predicting Student Academic Performance Using Publicly Available Educational Data
 
-A simple beginner-friendly React dashboard for viewing colleges, courses, students, coursework grades, and a basic prediction for final results.
+A beginner-friendly React + Vite dashboard that shows colleges, courses, students, coursework grades, and a simple predicted final result.
 
-## What the app does
+## What this app does
 
-- Shows a landing page with the project title first.
-- Lets you open a dashboard and browse:
-  1. Colleges
-  2. Courses in a college
-  3. Students in a course
-- Shows each student’s coursework grade and a **Version 1** predicted final result.
+- Shows a landing page with the project title.
+- Opens a dashboard of 3 colleges:
+  - Computer Science
+  - Engineering
+  - Business Administration
+- Shows exactly 2 courses inside each college.
+- Shows students in each course with:
+  - Coursework grade (A+, B, C, D)
+  - Predicted final result using a simple rules-based model
 
-## Version 1 prediction logic (simple rules)
+## Version 1 prediction logic
 
 - A+ coursework → Likely A+ in final
 - B coursework → Likely B in final
 - C coursework → Likely C in final
 - D coursework → At-risk / Likely D in final
 
-## Important project choices
+## Tech stack
 
-- No backend
-- No database
-- No authentication
-- No extra libraries
-- Local mock data only (easy to edit)
+- React (frontend)
+- Vite (dev server + build)
+- Plain local JavaScript data file (easy to edit)
+- Simple CSS (no backend, no database, no login)
 
-## Run locally
+## How to run locally
 
 1. Install dependencies:
    ```bash
    npm install
    ```
-2. Start development server:
+2. Start the app:
    ```bash
    npm run dev
    ```
-3. Open the local URL shown in terminal (usually `http://localhost:5173`).
+3. Open the URL shown in your terminal (usually `http://localhost:5173`).
 
-## Edit data (single dedicated file)
+## How to edit the data
 
-All editable sample content is in:
+All project data is in:
 
-- `src/data/dashboardData.js`
+- `src/data/academicData.js`
 
-Edit this one file to change:
+Edit this file to change:
 
-- Project title/subtitle
 - Colleges
 - Courses
 - Students
 - Coursework grades
-- Prediction note text shown in the UI
 
-## Change prediction behavior
+### Data format used
+
+- `colleges` (array)
+  - each college has `id`, `name`, `courses`
+- each `course` has `id`, `name`, `students`
+- each `student` has `id`, `name`, `courseworkGrade`
+
+Allowed grade values for version 1:
+
+- `A+`
+- `B`
+- `C`
+- `D`
+
+## How to change prediction behavior
 
 Edit:
 
 - `src/utils/predictor.js`
 
-The mapping in `predictionRules` controls the displayed estimate.
+You can update the mapping rules in `predictionRules`.
 
-## Simple project structure
+## Project structure
 
 ```text
 student-performance-dashboard/
+├─ index.html
+├─ package.json
+├─ vite.config.js
 ├─ src/
 │  ├─ App.jsx
+│  ├─ main.jsx
 │  ├─ styles.css
 │  ├─ data/
-│  │  └─ dashboardData.js
+│  │  └─ academicData.js
 │  ├─ utils/
 │  │  └─ predictor.js
 │  └─ components/
@@ -77,23 +95,20 @@ student-performance-dashboard/
 │     ├─ CollegeList.jsx
 │     ├─ CourseList.jsx
 │     └─ CourseDetail.jsx
-├─ index.html
-├─ package.json
-└─ vite.config.js
+└─ README.md
 ```
 
-## Version 2 idea
+## Suggested Version 2 (more realistic features)
 
-In Version 2, we can improve prediction realism by using:
+In version 2, replace the simple grade-only rule with features from your Sprint 1 context:
 
-- study time
-- absences
-- previous failures
+- Study time
+- Absences
+- Previous failures
 
-Suggested path:
+Potential next step:
 
-1. Add these fields per student in `src/data/dashboardData.js`.
-2. Update `src/utils/predictor.js` to use a small weighted scoring rule.
-3. Show output as `At-risk` vs `Not at-risk` (and optional confidence label).
-
-This keeps the same frontend structure and still avoids backend complexity at first.
+- Add these fields per student in `academicData.js`
+- Create a basic weighted scoring function in `predictor.js`
+- Show risk status: `At-risk` or `Not at-risk`
+- Later, you can plug in a trained classification model while keeping the same UI structure

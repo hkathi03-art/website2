@@ -4,7 +4,7 @@ function GradeBadge({ label }) {
   return <span className={`badge badge-${label.replace('+', 'plus').toLowerCase()}`}>{label}</span>
 }
 
-function CourseDetail({ college, course, predictionNote, onBack }) {
+function CourseDetail({ college, course, onBack }) {
   return (
     <section>
       <div className="section-header">
@@ -13,9 +13,6 @@ function CourseDetail({ college, course, predictionNote, onBack }) {
         </button>
         <h2>{college.name} / {course.name}</h2>
       </div>
-
-      {/* Beginner note: this clarifies version-1 logic in the actual UI. */}
-      <p className="info-note">{predictionNote}</p>
 
       <div className="table-wrap">
         <table>
@@ -30,9 +27,7 @@ function CourseDetail({ college, course, predictionNote, onBack }) {
             {course.students.map((student) => (
               <tr key={student.id}>
                 <td>{student.name}</td>
-                <td>
-                  <GradeBadge label={student.courseworkGrade} />
-                </td>
+                <td><GradeBadge label={student.courseworkGrade} /></td>
                 <td>{predictFinalResult(student.courseworkGrade)}</td>
               </tr>
             ))}

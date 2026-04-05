@@ -1,9 +1,5 @@
-// =========================================
-// Version 1 Prediction Rules (Very Simple)
-// =========================================
-// We use coursework grade only for now.
-// In Version 2, this file can include studyTime, absences,
-// and previousFailures without changing the rest of the UI.
+// Version 1 simple prediction rules.
+// This is intentionally easy to understand and update later.
 
 const predictionRules = {
   'A+': 'Likely A+ in final',

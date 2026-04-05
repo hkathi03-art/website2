@@ -1,7 +1,7 @@
 :root {
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  color: #1f2a37;
-  background: #f4f6f8;
+  color: #1f2937;
+  background: #f7f8fa;
 }
 
 * {
@@ -10,33 +10,13 @@
 
 body {
   margin: 0;
-  background: #f4f6f8;
+  background: #f7f8fa;
 }
 
 .app-shell {
   max-width: 980px;
-  margin: 28px auto;
-  padding: 16px;
-}
-
-.top-nav {
-  margin-bottom: 16px;
-  padding: 12px 14px;
-  border: 1px solid #d8dee6;
-  border-radius: 12px;
-  background: #ffffff;
-}
-
-.step-label {
-  margin: 0;
-  font-weight: 600;
-  color: #1f3a5f;
-}
-
-.breadcrumb {
-  margin: 4px 0 0;
-  color: #4c5d73;
-  font-size: 0.92rem;
+  margin: 40px auto;
+  padding: 24px;
 }
 
 h1,
@@ -47,15 +27,15 @@ h3 {
 
 .landing {
   background: #ffffff;
-  border: 1px solid #d8dee6;
-  border-radius: 12px;
-  padding: 28px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 36px;
   text-align: center;
 }
 
 .landing p {
-  color: #475569;
-  margin-bottom: 20px;
+  color: #4b5563;
+  margin-bottom: 24px;
 }
 
 button {
@@ -64,8 +44,8 @@ button {
   padding: 10px 16px;
   font-size: 0.95rem;
   cursor: pointer;
-  background: #24466d;
-  color: #ffffff;
+  background: #2563eb;
+  color: white;
 }
 
 button:hover {
@@ -73,8 +53,8 @@ button:hover {
 }
 
 .secondary-btn {
-  background: #e8eef5;
-  color: #1f3a5f;
+  background: #eef2ff;
+  color: #1e3a8a;
 }
 
 .section-header {
@@ -88,36 +68,26 @@ button:hover {
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .card {
   text-align: left;
   background: #ffffff;
-  color: #1f2a37;
-  border: 1px solid #d8dee6;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
   padding: 16px;
 }
 
 .card p {
-  color: #5b6b7f;
-}
-
-.info-note {
-  margin: 0 0 12px;
-  background: #f0f4f9;
-  color: #334155;
-  border: 1px solid #d8dee6;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 0.92rem;
+  color: #6b7280;
 }
 
 .table-wrap {
   overflow-x: auto;
   background: #ffffff;
-  border: 1px solid #d8dee6;
-  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
 }
 
 table {
@@ -128,7 +98,7 @@ table {
 th,
 td {
   padding: 12px;
-  border-bottom: 1px solid #ecf0f4;
+  border-bottom: 1px solid #f1f5f9;
   text-align: left;
 }
 
@@ -147,46 +117,20 @@ th {
 
 .badge-aplus {
   background: #dcfce7;
-  color: #14532d;
+  color: #166534;
 }
 
 .badge-b {
   background: #dbeafe;
-  color: #1e40af;
+  color: #1d4ed8;
 }
 
 .badge-c {
   background: #fef3c7;
-  color: #854d0e;
+  color: #92400e;
 }
 
 .badge-d {
   background: #fee2e2;
   color: #991b1b;
-}
-
-/* Mobile adjustments to keep reading simple and clean. */
-@media (max-width: 640px) {
-  .app-shell {
-    margin: 16px auto;
-    padding: 12px;
-  }
-
-  .landing {
-    padding: 20px;
-  }
-
-  th,
-  td {
-    padding: 10px 8px;
-    font-size: 0.9rem;
-  }
-
-  button {
-    width: 100%;
-  }
-
-  .section-header .secondary-btn {
-    width: auto;
-  }
 }

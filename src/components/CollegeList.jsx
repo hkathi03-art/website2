@@ -1,4 +1,3 @@
-// Step 2: select a college.
 function CollegeList({ colleges, onSelectCollege }) {
   return (
     <section>
