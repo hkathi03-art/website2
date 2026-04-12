@@ -128,17 +128,57 @@ export default function Home() {
           </div>
           <div className="features-grid">
             {[
-              { href:'/chatbot',    icon:'🎓', title:'Ask Maya, Your AI Guide',  desc:'Got a question about your visa, lease, or career move? Maya knows BSU inside out and is available 24/7.' },
-              { href:'/housing',    icon:'🏢', title:'Housing Search',            desc:'Browse verified on/off-campus housing with real photos. Students can also post their own listings.' },
-              { href:'/mentorship', icon:'👥', title:'Peer Mentorship',           desc:'Connect with alumni who\'ve navigated the same F-1 challenges. Guidance on academics, career, and US life.' },
-              { href:'/resources',  icon:'📚', title:'Resource Library',          desc:'Curated guides on immigration, banking, scholarships, and campus life — everything you need to thrive.' },
-                            { href:'/messages',   icon:'💬', title:'Direct Messaging',          desc:'Message mentors directly. Keep all your support conversations organized in one place.' },
+              {
+                href:'/chatbot',
+                icon:'🎓',
+                eyebrow:'24/7 Support',
+                title:'Ask Maya, Your AI Guide',
+                desc:'Get instant answers on visa rules, housing leases, academics, and career steps tailored to BSU students.',
+                cta:'Ask Maya',
+              },
+              {
+                href:'/housing',
+                icon:'🏢',
+                eyebrow:'Safe Housing',
+                title:'Housing Search',
+                desc:'Explore verified on- and off-campus options with photos, pricing, and trusted listing details.',
+                cta:'Find Housing',
+              },
+              {
+                href:'/mentorship',
+                icon:'👥',
+                eyebrow:'Real Guidance',
+                title:'Peer Mentorship',
+                desc:'Connect with alumni and student mentors who understand F-1 life, classes, and job preparation.',
+                cta:'Meet Mentors',
+              },
+              {
+                href:'/resources',
+                icon:'📚',
+                eyebrow:'Step-by-Step Help',
+                title:'Resource Library',
+                desc:'Use practical guides for immigration, banking, scholarships, health, and daily life in the U.S.',
+                cta:'Open Resources',
+              },
+              {
+                href:'/messages',
+                icon:'💬',
+                eyebrow:'Stay Connected',
+                title:'Direct Messaging',
+                desc:'Message mentors and support contacts in one organized place so questions never get lost.',
+                cta:'Open Messages',
+              },
             ].map(f => (
               <a key={f.href} className="feat-card" onClick={() => router.push(f.href)} style={{cursor:'pointer'}}>
-                <div className="feat-icon">{f.icon}</div>
-                <div className="feat-title">{f.title}</div>
+                <div className="feat-title-row">
+                  <div className="feat-icon">{f.icon}</div>
+                  <div className="feat-meta">
+                    <div className="feat-eyebrow">{f.eyebrow}</div>
+                    <div className="feat-title">{f.title}</div>
+                  </div>
+                </div>
                 <p className="feat-desc">{f.desc}</p>
-                <div className="feat-link">Learn more <i className="fas fa-arrow-right"/></div>
+                <div className="feat-link">{f.cta} <i className="fas fa-arrow-right"/></div>
               </a>
             ))}
           </div>
