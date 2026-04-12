@@ -28,7 +28,7 @@ export default function Home() {
     {
       title: 'Trusted Support Channels',
       icon: 'fa-circle-check',
-      desc: 'Connect with mentors and advisors through official in-platform communication pathways.',
+      desc: 'Connect with mentors through official in-platform communication pathways.',
       onClick: () => router.push('/messages'),
     },
   ]
@@ -132,7 +132,7 @@ export default function Home() {
               { href:'/housing',    icon:'🏢', title:'Housing Search',            desc:'Browse verified on/off-campus housing with real photos. Students can also post their own listings.' },
               { href:'/mentorship', icon:'👥', title:'Peer Mentorship',           desc:'Connect with alumni who\'ve navigated the same F-1 challenges. Guidance on academics, career, and US life.' },
               { href:'/resources',  icon:'📚', title:'Resource Library',          desc:'Curated guides on immigration, banking, scholarships, and campus life — everything you need to thrive.' },
-                            { href:'/messages',   icon:'💬', title:'Direct Messaging',          desc:'Message mentors and advisors directly. Keep all your support conversations organized in one place.' },
+                            { href:'/messages',   icon:'💬', title:'Direct Messaging',          desc:'Message mentors directly. Keep all your support conversations organized in one place.' },
             ].map(f => (
               <a key={f.href} className="feat-card" onClick={() => router.push(f.href)} style={{cursor:'pointer'}}>
                 <div className="feat-icon">{f.icon}</div>

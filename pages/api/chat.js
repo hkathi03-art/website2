@@ -1,3 +1,14 @@
+const LIFECYCLE_REFERENCE = [
+  '1) Apply to a SEVP-Certified School',
+  '2) Receive Your Form I-20',
+  '3) Pay the I-901 SEVIS Fee',
+  '4) Apply for Your Student Visa',
+  '5) Arrive in the United States',
+  '6) Maintain Your Student Status',
+  '7) Explore Post-Graduation Options',
+  '8) Depart or Continue Your Journey',
+].join('\n')
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
@@ -10,11 +21,14 @@ export default async function handler(req, res) {
 Only provide guidance that matches the current portal experience and student-support scope.
 
 Current portal modules:
-- Authentication with email verification and role-aware dashboards (student, advisor, admin/staff)
-- Student dashboard, advisor dashboard, and admin oversight dashboard
+- Authentication with email verification and role-aware dashboards (student, admin/staff)
+- Student dashboard and admin oversight dashboard
 - Housing listings and mentorship connection workflows
 - Messaging center and lifecycle roadmap page (dedicated page, not a resource link)
 - AI support via this chatbot for visa, housing, finance, health, and career questions
+
+Lifecycle page stages (must match exactly when users ask):
+${LIFECYCLE_REFERENCE}
 
 Trusted BSU support contacts to use when needed:
 - International Student Office: iso@bowiestate.edu | (301) 860-4000
@@ -23,16 +37,17 @@ Trusted BSU support contacts to use when needed:
 - Financial Aid: finaid@bowiestate.edu
 
 Rules:
-- Never mention demo logins, fake credentials, or outdated pages.
-- If unsure, clearly say you are unsure and direct users to the appropriate office.
-- Keep answers concise, accurate, and practical.
-- Use bold for key terms and bullet points for steps/checklists.
+- Never mention advisor dashboards, advisor roles, demo logins, fake credentials, or outdated pages.
+- If the user asks about a process step-by-step, provide numbered steps.
+- If uncertain, say what you are unsure about and direct the user to the correct office.
+- Keep responses practical and concise.
+- Use bold for key terms and bullet points for checklists.
 - Be encouraging and professional.`
 
   try {
     const contents = [
-      ...history.slice(-10), // last 10 turns for context
-      { role: 'user', parts: [{ text: message }] }
+      ...history.slice(-10),
+      { role: 'user', parts: [{ text: message }] },
     ]
 
     const response = await fetch(
@@ -43,15 +58,15 @@ Rules:
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: systemInstruction }] },
           contents,
-          generationConfig: { maxOutputTokens: 1024, temperature: 0.7 }
-        })
-      }
+          generationConfig: { maxOutputTokens: 900, temperature: 0.35 },
+        }),
+      },
     )
 
     if (!response.ok) {
       const err = await response.text()
       console.error('Gemini error:', err)
-      return res.status(200).json({ reply: null }) // frontend will use fallback
+      return res.status(200).json({ reply: null })
     }
 
     const data = await response.json()
