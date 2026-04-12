@@ -48,6 +48,23 @@ function getFallback(msg) {
   return scored[0].ans
 }
 
+function getOfficeContact(msg = '') {
+  const lower = msg.toLowerCase()
+  if (/(housing|apartment|lease|rent|room|transport)/.test(lower)) {
+    return { label: 'Connect with Housing Office', email: 'housing@bowiestate.edu' }
+  }
+  if (/(scholarship|funding|financial aid|tax|taxes|1040|bank|credit)/.test(lower)) {
+    return { label: 'Connect with Financial Aid', email: 'finaid@bowiestate.edu' }
+  }
+  if (/(cpt|opt|job|career|internship|employment|resume)/.test(lower)) {
+    return { label: 'Connect with Career Services', email: 'career@bowiestate.edu' }
+  }
+  if (/(health|insurance|ship|medical|doctor|counseling)/.test(lower)) {
+    return { label: 'Connect with Health Services', email: 'healthservices@bowiestate.edu' }
+  }
+  return { label: 'Connect with International Office', email: 'iso@bowiestate.edu' }
+}
+
 function formatText(text) {
   return text
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
@@ -66,6 +83,7 @@ export default function Chatbot() {
   const [history, setHistory] = useState([])
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
+  const [officeContact, setOfficeContact] = useState(getOfficeContact())
   const bodyRef = useRef()
 
   useEffect(() => {
@@ -76,6 +94,7 @@ export default function Chatbot() {
     const text = preset || input.trim()
     if (!text || typing) return
     setInput('')
+    setOfficeContact(getOfficeContact(text))
 
     const newMsgs = [...messages, { role:'user', text, ts: now() }]
     setMessages(newMsgs)
@@ -159,6 +178,12 @@ export default function Chatbot() {
               {CHIPS.map(c => (
                 <button key={c.label} className="quick-chip" onClick={() => send(c.msg)}>{c.label}</button>
               ))}
+            </div>
+
+            <div className="ai-office-cta">
+              <a className="office-btn" href={`mailto:${officeContact.email}`}>
+                <i className="fas fa-envelope" /> {officeContact.label}
+              </a>
             </div>
 
             <div className="ai-input-bar">

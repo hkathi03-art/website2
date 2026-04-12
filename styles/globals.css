@@ -469,6 +469,10 @@ body.sb-collapsed .main-wrap{margin-left:0!important}
 .ai-chips{display:flex;gap:.45rem;flex-wrap:wrap;padding:.7rem 1.5rem;border-top:1px solid var(--border);background:var(--surface)}
 .quick-chip{padding:.32rem .82rem;background:var(--bg);border:1px solid var(--border);border-radius:999px;font-size:.72rem;color:var(--text2);cursor:pointer;transition:all .2s;font-family:var(--font);font-weight:500}
 .quick-chip:hover{background:var(--yellow-lt);border-color:var(--yellow);color:var(--yellow-dk)}
+.ai-office-cta{padding:0 1.5rem .85rem;border-top:1px solid var(--border);background:var(--surface)}
+.office-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.5rem .9rem;border-radius:999px;background:var(--yellow-lt);border:1px solid color-mix(in srgb, var(--yellow) 35%, var(--border));color:var(--yellow-dk);font-size:.75rem;font-weight:700;text-decoration:none;transition:all .2s}
+.office-btn:hover{background:var(--yellow);color:#111}
+.office-btn:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
 .ai-input-bar{padding:.9rem 1.5rem;border-top:1px solid var(--border);display:flex;gap:.8rem;flex-shrink:0;background:var(--surface)}
 
 /* ── FAQ ─────────────────────────────────── */
