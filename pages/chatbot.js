@@ -24,12 +24,26 @@ Open the **Lifecycle** page for full stage-by-stage details and action checklist
   { keys:['work','job','campus','employment','20 hours'], ans:`**Working as an F-1 Student:**\n\n✅ **On-campus (no extra authorization):**\n• Up to 20 hours/week during the semester\n• Full-time during official school breaks\n• Library, dining, labs, TA positions, research\n\n✅ **Off-campus (authorization required):**\n• CPT — before graduation, tied to your degree\n• OPT — after graduation, 12 months (36 for STEM)\n\n❌ Working off-campus without authorization = F-1 status violation\n\n📧 career@bowiestate.edu` },
 ]
 
+const DEFAULT_REPLY = `I'm **Maya**, your BSU international student guide! 🎓\n\nI can help you with:\n• **Visa & Status** — F-1 rules, travel, address changes\n• **Work Auth** — CPT, OPT, on-campus jobs\n• **Housing** — on/off-campus options and tips\n• **Finance** — scholarships, banking, taxes\n• **Health** — insurance, campus services\n• **Career** — internships, networking, job search\n\nTry asking something specific! For urgent matters:\n📧 iso@bowiestate.edu | 📞 (301) 860-4000`
+
+function escapeRegex(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 function getFallback(msg) {
   const lower = msg.toLowerCase()
-  for (const f of FALLBACKS) {
-    if (f.keys.some(k => lower.includes(k))) return f.ans
-  }
-  return `I'm **Maya**, your BSU international student guide! 🎓\n\nI can help you with:\n• **Visa & Status** — F-1 rules, travel, address changes\n• **Work Auth** — CPT, OPT, on-campus jobs\n• **Housing** — on/off-campus options and tips\n• **Finance** — scholarships, banking, taxes\n• **Health** — insurance, campus services\n• **Career** — internships, networking, job search\n\nTry asking something specific! For urgent matters:\n📧 iso@bowiestate.edu | 📞 (301) 860-4000`
+  const scored = FALLBACKS.map((f) => {
+    const score = f.keys.reduce((acc, key) => {
+      const regex = new RegExp(`\\b${escapeRegex(key.toLowerCase())}\\b`, 'g')
+      const matches = lower.match(regex)
+      return acc + (matches ? matches.length : 0)
+    }, 0)
+    return { ans: f.ans, score }
+  }).filter((entry) => entry.score > 0)
+
+  if (!scored.length) return null
+  scored.sort((a, b) => b.score - a.score)
+  return scored[0].ans
 }
 
 function formatText(text) {
@@ -68,6 +82,13 @@ export default function Chatbot() {
     setTyping(true)
 
     try {
+      const localReply = getFallback(text)
+      if (localReply) {
+        setMessages(prev => [...prev, { role:'bot', text: localReply, ts: now() }])
+        setHistory(prev => [...prev, { role:'model', parts:[{text:localReply}] }])
+        return
+      }
+
       const res = await fetch('/api/chat', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
@@ -75,13 +96,13 @@ export default function Chatbot() {
       })
       if (!res.ok) throw new Error('API error')
       const data = await res.json()
-      const reply = data.reply || getFallback(text)
+      const reply = data.reply || DEFAULT_REPLY
       setMessages(prev => [...prev, { role:'bot', text: reply, ts: now() }])
       setHistory(prev => [...prev, { role:'model', parts:[{text:reply}] }])
       // Track conversation count
       try { localStorage.setItem('bsu-chat-count', String((parseInt(localStorage.getItem('bsu-chat-count')||'0')+1))) } catch {}
     } catch {
-      const fallback = getFallback(text)
+      const fallback = getFallback(text) || DEFAULT_REPLY
       setMessages(prev => [...prev, { role:'bot', text: fallback, ts: now() }])
       setHistory(prev => [...prev, { role:'model', parts:[{text:fallback}] }])
     } finally {
