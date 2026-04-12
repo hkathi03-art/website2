@@ -475,6 +475,16 @@ body.sb-collapsed .main-wrap{margin-left:0!important}
 .office-btn:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
 .ai-input-bar{padding:.9rem 1.5rem;border-top:1px solid var(--border);display:flex;gap:.8rem;flex-shrink:0;background:var(--surface)}
 
+/* ── JOURNEY GUIDE ───────────────────────── */
+.journey-guide{position:fixed;left:1rem;bottom:1rem;z-index:45;display:grid;gap:.55rem;max-width:320px}
+.journey-popup{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:.75rem .8rem;box-shadow:var(--shadow-md)}
+.journey-popup p{margin:0;color:var(--text2);font-size:.78rem;line-height:1.5}
+.journey-dismiss{margin-top:.5rem;border:none;background:var(--yellow-lt);color:var(--yellow-dk);font-size:.72rem;font-weight:700;padding:.35rem .6rem;border-radius:999px;cursor:pointer}
+.journey-arrows{display:flex;gap:.45rem}
+.journey-arrows button{border:1px solid var(--border2);background:var(--surface);color:var(--text2);font-weight:700;font-size:.74rem;border-radius:999px;padding:.38rem .62rem;cursor:pointer;display:flex;align-items:center;gap:.35rem}
+.journey-arrows button:hover{border-color:var(--yellow);background:var(--yellow-lt);color:var(--yellow-dk)}
+@media(max-width:768px){.journey-guide{left:.7rem;right:.7rem;max-width:none}.journey-arrows{justify-content:space-between}}
+
 /* ── FAQ ─────────────────────────────────── */
 .faq-search-wrap{position:relative;margin-bottom:1.5rem}
 .faq-search{width:100%;padding:12px 14px 12px 42px;background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--r-md);color:var(--text);font-size:.88rem;font-family:var(--font)}
