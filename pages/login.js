@@ -113,6 +113,15 @@ export default function Login() {
     <div className="main-wrap">
       <div className="auth-wrap">
         <div className="auth-card">
+          <button
+            type="button"
+            className="auth-close-btn"
+            aria-label="Close sign in or create account"
+            onClick={() => router.push('/')}
+          >
+            <i className="fas fa-xmark" />
+          </button>
+
           <div style={{ textAlign: 'center', marginBottom: '1.4rem' }}>
             <div className="auth-icon" style={{ display: 'inline-flex' }}>🎓</div>
             <div className="auth-title">BSU International Portal</div>

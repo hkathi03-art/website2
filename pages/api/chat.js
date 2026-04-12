@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   const { message, history = [] } = req.body
   if (!message) return res.status(400).json({ error: 'No message' })
 
-  const GEMINI_KEY = process.env.GOOGLE_GENERATIVE_AI_API_KEY
+  const OPENROUTER_KEY = process.env.OPENROUTER_API_KEY
 
   const systemInstruction = `You are Maya, the official assistant for the BSU International Portal.
 Only provide guidance that matches the current portal experience and student-support scope.
@@ -45,32 +45,52 @@ Rules:
 - Be encouraging and professional.`
 
   try {
-    const contents = [
-      ...history.slice(-10),
-      { role: 'user', parts: [{ text: message }] },
+    if (!OPENROUTER_KEY) {
+      console.error('Missing OPENROUTER_API_KEY')
+      return res.status(200).json({ reply: null })
+    }
+
+    const priorMessages = history
+      .slice(-10)
+      .map((item) => ({
+        role: item.role === 'model' ? 'assistant' : 'user',
+        content: item.parts?.[0]?.text || '',
+      }))
+      .filter((item) => item.content.trim().length > 0)
+
+    const messages = [
+      { role: 'system', content: systemInstruction },
+      ...priorMessages,
+      { role: 'user', content: message },
     ]
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
+      'https://openrouter.ai/api/v1/chat/completions',
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          Authorization: `Bearer ${OPENROUTER_KEY}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'https://bowiestate.edu',
+          'X-Title': 'BSU International Student Portal',
+        },
         body: JSON.stringify({
-          systemInstruction: { parts: [{ text: systemInstruction }] },
-          contents,
-          generationConfig: { maxOutputTokens: 900, temperature: 0.35 },
+          model: 'openai/gpt-4o-mini',
+          messages,
+          temperature: 0.35,
+          max_tokens: 900,
         }),
       },
     )
 
     if (!response.ok) {
       const err = await response.text()
-      console.error('Gemini error:', err)
+      console.error('OpenRouter error:', err)
       return res.status(200).json({ reply: null })
     }
 
     const data = await response.json()
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text
+    const reply = data.choices?.[0]?.message?.content
 
     return res.status(200).json({ reply: reply || null })
   } catch (e) {
