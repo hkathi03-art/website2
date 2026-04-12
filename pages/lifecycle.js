@@ -137,12 +137,16 @@ const WORK_REQUIREMENTS = [
 export default function LifecyclePage() {
   const router = useRouter()
   const [activeKey, setActiveKey] = useState(LIFE_CYCLE_STEPS[0].key)
+  const [expandedKey, setExpandedKey] = useState(LIFE_CYCLE_STEPS[0].key)
 
   useEffect(() => {
     const { stage } = router.query
     if (!stage) return
     const matched = LIFE_CYCLE_STEPS.find((step) => step.key === String(stage))
-    if (matched) setActiveKey(matched.key)
+    if (matched) {
+      setActiveKey(matched.key)
+      setExpandedKey(matched.key)
+    }
   }, [router.query])
 
   const activeStep = useMemo(
@@ -151,6 +155,10 @@ export default function LifecyclePage() {
   )
 
   const progressPct = Math.round(((LIFE_CYCLE_STEPS.findIndex((s) => s.key === activeStep.key) + 1) / LIFE_CYCLE_STEPS.length) * 100)
+  const toggleExpanded = (stepKey) => {
+    setActiveKey(stepKey)
+    setExpandedKey((prev) => (prev === stepKey ? null : stepKey))
+  }
 
   return (
     <div className="main-wrap">
@@ -175,23 +183,66 @@ export default function LifecyclePage() {
           <div className="ilc-track-wrap">
             <div className="ilc-track">
               {LIFE_CYCLE_STEPS.map((step, idx) => (
-                <button
+                <article
                   key={step.key}
-                  className={`ilc-card ${activeStep.key === step.key ? 'active' : ''}`}
-                  onClick={() => setActiveKey(step.key)}
+                  className={`ilc-card ${activeStep.key === step.key ? 'active' : ''} ${expandedKey === step.key ? 'expanded' : ''}`}
                   style={{ animationDelay: `${idx * 0.05}s` }}
                 >
-                  <div className="ilc-icon-wrap">
-                    <div className="ilc-icon"><i className={`fas ${step.icon}`} /></div>
-                    <div className="ilc-num">{idx + 1}</div>
+                  <button
+                    className="ilc-card-trigger"
+                    onClick={() => toggleExpanded(step.key)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        toggleExpanded(step.key)
+                      }
+                    }}
+                    aria-expanded={expandedKey === step.key}
+                    aria-controls={`ilc-details-${step.key}`}
+                  >
+                    <div className="ilc-icon-wrap">
+                      <div className="ilc-icon"><i className={`fas ${step.icon}`} /></div>
+                      <div className="ilc-num">{idx + 1}</div>
+                    </div>
+                    <div className="ilc-copy">
+                      <h3>{step.title}</h3>
+                      <p>{step.subtitle}</p>
+                      <span className="ilc-link">{expandedKey === step.key ? 'Hide Details' : 'Learn More'}</span>
+                    </div>
+                    <i className={`fas fa-angle-down ilc-chevron ${expandedKey === step.key ? 'open' : ''}`} />
+                  </button>
+                  <div
+                    id={`ilc-details-${step.key}`}
+                    className={`ilc-inline-detail ${expandedKey === step.key ? 'open' : ''}`}
+                    aria-hidden={expandedKey !== step.key}
+                  >
+                    <div className="ilc-inline-detail-inner">
+                      <div className="ilc-inline-head">
+                        <div className="ilc-learn-more">Detailed Guidance</div>
+                        <button
+                          className="ilc-close-btn"
+                          onClick={() => setExpandedKey(null)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault()
+                              setExpandedKey(null)
+                            }
+                          }}
+                          aria-label={`Close details for ${step.title}`}
+                        >
+                          <i className="fas fa-xmark" />
+                        </button>
+                      </div>
+                      <p className="ilc-learn-text">{step.learnMore}</p>
+                      <ul className="ilc-list">
+                        {step.bullets.map((bullet) => (
+                          <li key={bullet}>{bullet}</li>
+                        ))}
+                      </ul>
+                      <p className="ilc-tip"><strong>Pro tip:</strong> {step.tip}</p>
+                    </div>
                   </div>
-                  <div className="ilc-copy">
-                    <h3>{step.title}</h3>
-                    <p>{step.subtitle}</p>
-                    <span className="ilc-link">Learn More</span>
-                  </div>
-                  <i className="fas fa-angle-down ilc-chevron" />
-                </button>
+                </article>
               ))}
             </div>
           </div>
@@ -211,20 +262,10 @@ export default function LifecyclePage() {
           </aside>
         </div>
 
-        <section className="admin-panel ilc-detail">
-          <div className="admin-panel-head ilc-detail-head">
-            <h3>{activeStep.title}</h3>
-            <div className="ilc-progress-pill">Journey Progress: {progressPct}%</div>
-          </div>
-          <div className="ilc-learn-more">Learn More</div>
-          <p className="ilc-learn-text">{activeStep.learnMore}</p>
-          <ul className="ilc-list">
-            {activeStep.bullets.map((bullet) => (
-              <li key={bullet}>{bullet}</li>
-            ))}
-          </ul>
-          <p className="ilc-tip"><strong>Pro tip:</strong> {activeStep.tip}</p>
-        </section>
+        <div className="ilc-progress-wrap" aria-live="polite">
+          <div className="ilc-progress-pill">Journey Progress: {progressPct}%</div>
+          <p>Active Stage: <strong>{activeStep.title}</strong></p>
+        </div>
 
         <section className="ilc-mentor-cta">
           <div className="ilc-mentor-icon"><i className="fas fa-briefcase" /></div>
@@ -267,7 +308,8 @@ export default function LifecyclePage() {
           gap: .8rem;
           align-items: start;
           animation: riseIn .45s ease both;
-          transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+          transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+          overflow: hidden;
         }
         .ilc-card:hover {
           transform: translateY(-3px);
@@ -277,6 +319,24 @@ export default function LifecyclePage() {
         .ilc-card.active {
           border-color: var(--yellow);
           box-shadow: 0 0 0 2px rgba(245,197,24,.25), var(--shadow-md);
+        }
+        .ilc-card.expanded {
+          transform: scale(1.01);
+          box-shadow: 0 0 0 2px rgba(245,197,24,.32), 0 16px 36px rgba(8,15,40,.18);
+        }
+        .ilc-card-trigger {
+          all: unset;
+          cursor: pointer;
+          display: grid;
+          grid-template-columns: auto 1fr auto;
+          gap: .8rem;
+          align-items: start;
+          padding: .95rem 1rem;
+        }
+        .ilc-card-trigger:focus-visible {
+          outline: 2px solid var(--yellow);
+          outline-offset: -2px;
+          border-radius: 16px;
         }
         .ilc-icon-wrap {
           display: grid;
@@ -318,6 +378,10 @@ export default function LifecyclePage() {
         .ilc-chevron {
           color: var(--yellow-dk);
           margin-top: .15rem;
+          transition: transform .25s ease;
+        }
+        .ilc-chevron.open {
+          transform: rotate(180deg);
         }
         .ilc-side-panel {
           border: 1px solid rgba(245, 197, 24, .42);
@@ -358,15 +422,16 @@ export default function LifecyclePage() {
           color: var(--text3);
           font-style: italic;
         }
-        .ilc-detail {
-          animation: fadeSlide .26s ease;
-          margin-bottom: 1.2rem;
-        }
-        .ilc-detail-head {
+        .ilc-progress-wrap {
+          margin: .2rem 0 1.2rem;
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          gap: .8rem;
+          gap: .7rem;
+          flex-wrap: wrap;
+          color: var(--text2);
+        }
+        .ilc-progress-wrap p {
+          margin: 0;
         }
         .ilc-progress-pill {
           border-radius: 999px;
@@ -376,6 +441,30 @@ export default function LifecyclePage() {
           font-size: .8rem;
           font-weight: 800;
         }
+        .ilc-inline-detail {
+          max-height: 0;
+          opacity: 0;
+          transition: max-height .35s ease, opacity .25s ease;
+          pointer-events: none;
+        }
+        .ilc-inline-detail.open {
+          max-height: 460px;
+          opacity: 1;
+          pointer-events: auto;
+        }
+        .ilc-inline-detail-inner {
+          margin: 0 .85rem .85rem;
+          border: 1px solid var(--border2);
+          background: var(--bg2);
+          border-radius: 14px;
+          padding: .8rem .9rem .85rem;
+        }
+        .ilc-inline-head {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: .6rem;
+        }
         .ilc-learn-more {
           display: inline-flex;
           border-radius: 999px;
@@ -384,11 +473,31 @@ export default function LifecyclePage() {
           color: var(--yellow-dk);
           font-size: .72rem;
           font-weight: 800;
-          margin-bottom: .55rem;
+        }
+        .ilc-close-btn {
+          width: 28px;
+          height: 28px;
+          border: 1px solid var(--border2);
+          border-radius: 50%;
+          display: grid;
+          place-items: center;
+          color: var(--text2);
+          background: var(--surface);
+          cursor: pointer;
+          transition: background .2s ease, color .2s ease, transform .2s ease;
+        }
+        .ilc-close-btn:hover {
+          background: var(--yellow-lt);
+          color: var(--yellow-dk);
+          transform: scale(1.06);
+        }
+        .ilc-close-btn:focus-visible {
+          outline: 2px solid var(--yellow);
+          outline-offset: 2px;
         }
         .ilc-learn-text {
           color: var(--text2);
-          margin-bottom: .75rem;
+          margin: .45rem 0 .75rem;
         }
         .ilc-list {
           padding-left: 1.05rem;
