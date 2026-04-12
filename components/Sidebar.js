@@ -18,9 +18,8 @@ export default function Sidebar({ open, onClose }) {
   }
 
   const baseItems = [
-    { icon:'fa-gauge',         label:'Dashboard', href:'/dashboard' },
-    { icon:'fa-user-shield',   label:'Admin',     href:'/admin' },
     { icon:'fa-house',         label:'Home',      href:'/' },
+    { icon:'fa-gauge',         label:'Dashboard', href:'/dashboard' },
     { icon:'fa-building',      label:'Housing',   href:'/housing' },
     { icon:'fa-user-group',    label:'Mentorship',href:'/mentorship' },
     { icon:'fa-comment-dots',  label:'Messages',  href:'/messages' },
@@ -28,7 +27,7 @@ export default function Sidebar({ open, onClose }) {
     { icon:'fa-road',          label:'Lifecycle', href:'/lifecycle' },
   ]
 
-  const items = user?.isAdmin 
+  const items = user?.isAdmin
     ? [...baseItems, { icon:'fa-user-shield', label:'Admin', href:'/admin' }]
     : baseItems
 

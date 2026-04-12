@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useAuth } from '../lib/useAuth'
@@ -6,6 +7,39 @@ import { HOUSINGS, MENTORS, LIFECYCLE_STAGES, TESTIMONIALS } from '../lib/data'
 export default function Home() {
   const router = useRouter()
   const { user } = useAuth()
+  const heroSlides = useMemo(() => {
+    const housingSlides = HOUSINGS.slice(0, 5).map((listing) => ({
+      id: listing.id,
+      src: listing.img,
+      alt: `${listing.title} listing preview`,
+    }))
+    return [
+      {
+        id: 'campus-default',
+        src: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600&h=900&fit=crop',
+        alt: 'BSU Campus',
+      },
+      ...housingSlides,
+    ]
+  }, [])
+  const [heroIndex, setHeroIndex] = useState(0)
+
+  useEffect(() => {
+    if (heroSlides.length <= 1) return undefined
+    const rotateTimer = window.setInterval(() => {
+      setHeroIndex((current) => (current + 1) % heroSlides.length)
+    }, 4800)
+    return () => window.clearInterval(rotateTimer)
+  }, [heroSlides.length])
+
+  const featuredListings = useMemo(() => {
+    if (!HOUSINGS.length) return []
+    const start = heroIndex % HOUSINGS.length
+    return Array.from({ length: Math.min(3, HOUSINGS.length) }, (_, offset) => {
+      return HOUSINGS[(start + offset) % HOUSINGS.length]
+    })
+  }, [heroIndex])
+
   const TRUST_SIGNALS = [
     {
       title: 'Verified Housing Listings',
@@ -38,13 +72,17 @@ export default function Home() {
       {/* HERO */}
       <section className="hero">
         <div className="hero-bg">
+          <div className="hero-bg-image-wrap">
           <Image
-            src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600&h=900&fit=crop"
-            alt="BSU Campus"
+            key={heroSlides[heroIndex].id}
+            className="hero-bg-image"
+            src={heroSlides[heroIndex].src}
+            alt={heroSlides[heroIndex].alt}
             fill
             priority
             sizes="100vw"
           />
+          </div>
         </div>
         <div className="hero-inner">
           <div>
@@ -67,8 +105,8 @@ export default function Home() {
           </div>
           <div className="hero-card">
             <div className="hero-card-title"><i className="fas fa-star" style={{color:'var(--yellow)'}}/>&nbsp;Featured Listings</div>
-            {HOUSINGS.slice(0,3).map(h => (
-              <div key={h.id} className="hero-listing-row" onClick={() => router.push('/housing')}>
+            {featuredListings.map((h, idx) => (
+              <div key={`${h.id}-${heroIndex}-${idx}`} className="hero-listing-row" style={{ '--row-delay': `${idx * 90}ms` }} onClick={() => router.push('/housing')}>
                 <div className="hero-listing-thumb">
                   <Image src={h.img} alt={h.title} width={44} height={44} sizes="44px" />
                 </div>
@@ -122,9 +160,9 @@ export default function Home() {
       <section className="home-section" style={{background:'var(--surface)'}}>
         <div className="home-section-inner">
           <div className="section-head">
-            <div className="section-overline">What We Offer</div>
+            <div className="section-overline feature-overline">What We Offer</div>
             <h2 className="section-title">Built for International Students,<br/>by BSU</h2>
-            <p className="section-sub" style={{color:'var(--text3)'}}>Every feature addresses the real challenges you face — from finding safe housing to landing your first US job.</p>
+            <p className="section-sub feature-subtext" style={{color:'var(--text3)'}}>Every feature addresses the real challenges you face — from finding safe housing to landing your first US job.</p>
           </div>
           <div className="features-grid">
             {[
