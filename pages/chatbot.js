@@ -50,19 +50,20 @@ function getFallback(msg) {
 
 function getOfficeContact(msg = '') {
   const lower = msg.toLowerCase()
+  const intlOfficeUrl = 'https://bowiestate.edu/about/administration-and-governance/division-of-academic-affairs/international-student-services/'
   if (/(housing|apartment|lease|rent|room|transport)/.test(lower)) {
-    return { label: 'Connect with Housing Office', email: 'housing@bowiestate.edu' }
+    return { label: 'Open International Student Services', url: intlOfficeUrl }
   }
   if (/(scholarship|funding|financial aid|tax|taxes|1040|bank|credit)/.test(lower)) {
-    return { label: 'Connect with Financial Aid', email: 'finaid@bowiestate.edu' }
+    return { label: 'Open International Student Services', url: intlOfficeUrl }
   }
   if (/(cpt|opt|job|career|internship|employment|resume)/.test(lower)) {
-    return { label: 'Connect with Career Services', email: 'career@bowiestate.edu' }
+    return { label: 'Open International Student Services', url: intlOfficeUrl }
   }
   if (/(health|insurance|ship|medical|doctor|counseling)/.test(lower)) {
-    return { label: 'Connect with Health Services', email: 'healthservices@bowiestate.edu' }
+    return { label: 'Open International Student Services', url: intlOfficeUrl }
   }
-  return { label: 'Connect with International Office', email: 'iso@bowiestate.edu' }
+  return { label: 'Open International Student Services', url: intlOfficeUrl }
 }
 
 function formatText(text) {
@@ -181,8 +182,8 @@ export default function Chatbot() {
             </div>
 
             <div className="ai-office-cta">
-              <a className="office-btn" href={`mailto:${officeContact.email}`}>
-                <i className="fas fa-envelope" /> {officeContact.label}
+              <a className="office-btn" href={officeContact.url} target="_blank" rel="noreferrer">
+                <i className="fas fa-up-right-from-square" /> {officeContact.label}
               </a>
             </div>
 
