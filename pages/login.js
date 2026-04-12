@@ -56,12 +56,7 @@ export default function Login() {
         return
       }
 
-      if (role === 'advisor') {
-        router.push('/advisor')
-        return
-      }
-
-      router.push('/dashboard')
+            router.push('/dashboard')
     } catch (e) {
       setMsg({ type: 'error', text: e.message })
     } finally {
@@ -144,7 +139,7 @@ export default function Login() {
           {tab === 'login' ? (
             <>
               <div className="auth-role-switch" role="tablist" aria-label="Sign-in role">
-                <button type="button" className={`auth-role-btn${loginAs === 'student' ? ' active' : ''}`} onClick={() => setLoginAs('student')}>Student / Advisor</button>
+                <button type="button" className={`auth-role-btn${loginAs === 'student' ? ' active' : ''}`} onClick={() => setLoginAs('student')}>Student</button>
                 <button type="button" className={`auth-role-btn${loginAs === 'admin' ? ' active' : ''}`} onClick={() => setLoginAs('admin')}>Admin / Staff</button>
               </div>
 
@@ -171,8 +166,7 @@ export default function Login() {
                 <label className="form-label">Account Role *</label>
                 <select className="form-input" value={suRole} onChange={(e) => setSuRole(e.target.value)}>
                   <option value="student">Student</option>
-                  <option value="advisor">Advisor</option>
-                </select>
+                                  </select>
               </div>
               <div className="form-2col">
                 <div className="form-group">
@@ -181,7 +175,7 @@ export default function Login() {
                 </div>
                 <div className="form-group">
                   <label className="form-label">Major / Department</label>
-                  <input className="form-input" placeholder={suRole === 'advisor' ? 'e.g. Career Services' : 'e.g. Computer Science'} value={suMajor} onChange={e => setSuMajor(e.target.value)} />
+                  <input className="form-input" placeholder="e.g. Computer Science" value={suMajor} onChange={e => setSuMajor(e.target.value)} />
                 </div>
               </div>
               <div className="form-group">

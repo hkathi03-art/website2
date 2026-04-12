@@ -2,6 +2,17 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 const FALLBACKS = [
+  { keys:['lifecycle','life cycle','journey stages','stages'], ans:`**International Student Life Cycle (8 stages):**
+1. Apply to a SEVP-Certified School
+2. Receive Your Form I-20
+3. Pay the I-901 SEVIS Fee
+4. Apply for Your Student Visa
+5. Arrive in the United States
+6. Maintain Your Student Status
+7. Explore Post-Graduation Options
+8. Depart or Continue Your Journey
+
+Open the **Lifecycle** page for full stage-by-stage details and action checklists.` },
   { keys:['cpt','curricular practical'], ans:`**CPT (Curricular Practical Training)** lets you work off-campus BEFORE graduation when the job is tied to your degree.\n\n**Rules:**\n• Must be authorized by your DSO (not USCIS)\n• Job must relate directly to your major\n• 12+ months full-time CPT = ineligible for OPT\n• Apply at the ISO office with a job offer letter\n\n📧 iso@bowiestate.edu | ☎️ (301) 860-4000` },
   { keys:['opt','optional practical'], ans:`**OPT (Optional Practical Training)** gives F-1 students up to **12 months** of work authorization after graduation. STEM majors get a **24-month STEM extension** (36 months total).\n\n**Timeline:**\n• Apply up to 90 days BEFORE graduation\n• No later than 60 days AFTER graduation\n• USCIS takes 3–5 months — apply EARLY!\n\n**Steps:** Visit ISO → I-20 OPT recommendation → File I-765 → Pay $410 fee → Wait for EAD card` },
   { keys:['housing','apartment','rent','lease','live'], ans:`**BSU Housing Options:**\n\n🏛️ **On-Campus (most affordable)**\n• Christa McAuliffe Hall — $760/mo\n• Tubman-Mays Hall — $680/mo\n\n🏢 **Off-Campus (popular)**\n• Terrapin Ridge — $1,275/mo, 1.3 mi\n• Campus Walk Studio — $980/mo, 0.8 mi\n• Bowie Townhomes — $1,650/mo, 2.4 mi\n• Capitol Heights Apts — $875/mo, 4.2 mi\n\nBrowse the **Housing** tab for photos, filters, and student-posted listings!` },
@@ -87,6 +98,7 @@ export default function Chatbot() {
     { label:'📊 US Taxes',             msg:'How do I file taxes as an F-1 international student?' },
     { label:'❤️ Health Insurance',     msg:'What are the health insurance requirements at BSU?' },
     { label:'💼 On-Campus Work',       msg:'Can F-1 students work on campus and how many hours?' },
+    { label:'🧭 Lifecycle Stages',      msg:'List the exact 8 international student lifecycle stages.' },
   ]
 
   return (
@@ -98,7 +110,7 @@ export default function Chatbot() {
               <div className="ai-av">🎓</div>
               <div className="ai-header-info">
                 <h3>Maya — Your BSU Guide</h3>
-                <p>Powered by Google Gemini</p>
+                <p>Powered by Google Gemini · Grounded in portal lifecycle and mentoring guidance</p>
               </div>
               <div className="ai-badge">
                 <span style={{width:7,height:7,background:'#4ade80',borderRadius:'50%',display:'inline-block'}}/>
