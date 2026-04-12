@@ -8,7 +8,7 @@ export default function Home() {
   const router = useRouter()
   const { user } = useAuth()
   const heroSlides = useMemo(() => {
-    const housingSlides = HOUSINGS.slice(0, 5).map((listing) => ({
+    const housingSlides = HOUSINGS.slice(0, 3).map((listing) => ({
       id: listing.id,
       src: listing.img,
       alt: `${listing.title} listing preview`,
@@ -28,7 +28,7 @@ export default function Home() {
     if (heroSlides.length <= 1) return undefined
     const rotateTimer = window.setInterval(() => {
       setHeroIndex((current) => (current + 1) % heroSlides.length)
-    }, 4800)
+    }, 30000)
     return () => window.clearInterval(rotateTimer)
   }, [heroSlides.length])
 
@@ -79,15 +79,22 @@ export default function Home() {
             src={heroSlides[heroIndex].src}
             alt={heroSlides[heroIndex].alt}
             fill
-            priority
+            priority={heroIndex === 0}
             sizes="100vw"
           />
           </div>
         </div>
         <div className="hero-inner">
           <div>
-            <div className="hero-tag"><i className="fas fa-graduation-cap"/>&nbsp;Bowie State University · Est. 1865</div>
-            <h1 className="hero-h1">Your Journey<br/>Starts <em>Here.</em></h1>
+            <div className="hero-tag">
+              <i className="fas fa-graduation-cap"/>
+              <span className="type-line type-line-tag">Bowie State University · Est. 1865</span>
+            </div>
+            <h1 className="hero-h1">
+              <span className="type-line type-line-journey">Your Journey</span>
+              <br/>
+              <span className="type-line type-line-starts">Starts <em>Here.</em></span>
+            </h1>
             <p className="hero-p">BSU's International Student Portal gives you everything in one place — housing, mentors, AI guidance, and community — so you can focus on what matters: building your future.</p>
             <div className="hero-btns">
               <button className="btn btn-primary btn-lg" onClick={() => router.push(user ? '/dashboard' : '/login')}>
