@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 const JOURNEY_ROUTES = [
+  { href: '/', label: 'Home', tip: 'Start from Home for a quick overview and featured updates.' },
   { href: '/dashboard', label: 'Dashboard', tip: 'Start here to see your progress and next priorities.' },
   { href: '/lifecycle', label: 'Lifecycle', tip: 'Follow each stage in order with practical checklists.' },
   { href: '/resources', label: 'Resources', tip: 'Open verified links for scholarships, CPT/OPT, taxes, and more.' },

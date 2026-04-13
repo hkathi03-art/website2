@@ -7,8 +7,9 @@ export default function Navbar({ onHamburger, sidebarCollapsed = false }) {
   const { user, signOut } = useAuth()
   const { theme, toggleTheme } = useTheme()
 
-  const userHandle = user?.email ? user.email.split('@')[0].toLowerCase() : ''
-  const userInitial = userHandle ? userHandle[0].toUpperCase() : user?.initials?.[0] || 'U'
+  const displayName = user?.name || (user?.email ? user.email.split('@')[0] : '')
+  const firstName = displayName.split(' ')[0] || ''
+  const userInitial = user?.initials?.[0] || firstName[0]?.toUpperCase() || 'U'
 
   const page = router.pathname.replace('/', '') || 'home'
   const showBack = router.pathname !== '/'
@@ -73,7 +74,7 @@ export default function Navbar({ onHamburger, sidebarCollapsed = false }) {
           <>
             <div className="user-badge" onClick={() => router.push('/dashboard')}>
               <div className="user-av">{userInitial}</div>
-              <span>{userHandle}</span>
+              <span>{firstName.toLowerCase()}</span>
             </div>
             <button className="btn-signout" onClick={handleSignOut}>Sign Out</button>
           </>
