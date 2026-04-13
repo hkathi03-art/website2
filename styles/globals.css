@@ -394,6 +394,7 @@ body.sb-collapsed .main-wrap{margin-left:0!important}
 .profile-quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
 .profile-quick-grid span{display:block;font-size:.67rem;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);margin-bottom:.12rem}
 .profile-quick-grid strong{display:block;font-size:.84rem;color:var(--text);font-weight:700;word-break:break-word}
+.profile-quick-about{margin-top:.75rem;font-size:.82rem;color:var(--text2);line-height:1.6;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:.7rem .8rem}
 @media(max-width:800px){.profile-quick-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:800px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.shortcuts-grid{grid-template-columns:repeat(2,1fr)}}
 

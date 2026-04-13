@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useAuth } from '../lib/useAuth'
 import { useToast } from '../components/Toast'
@@ -20,9 +20,6 @@ export default function Profile() {
     email: '',
   })
 
-  const avatarStorageKey = useMemo(() => `bsu-profile-avatar-${user?.id || 'guest'}`, [user?.id])
-  const aboutStorageKey = useMemo(() => `bsu-profile-about-${user?.id || 'guest'}`, [user?.id])
-
   useEffect(() => {
     if (!user) {
       router.push('/login')
@@ -36,11 +33,9 @@ export default function Profile() {
       email: user.email || '',
     })
 
-    if (typeof window !== 'undefined') {
-      setAvatarData(localStorage.getItem(avatarStorageKey) || '')
-      setAbout(localStorage.getItem(aboutStorageKey) || '')
-    }
-  }, [aboutStorageKey, avatarStorageKey, router, user])
+    setAvatarData(user.avatarData || '')
+    setAbout(user.about || '')
+  }, [router, user])
 
   async function handleSave() {
     if (!user) return
@@ -57,17 +52,20 @@ export default function Profile() {
       if (error) throw error
 
       const { error: metaError } = await supabase.auth.updateUser({
-        data: { full_name: payload.full_name },
+        data: {
+          full_name: payload.full_name,
+          about: about.trim(),
+          avatar_data: avatarData || '',
+        },
       })
       if (metaError) throw metaError
 
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(aboutStorageKey, about.trim())
-      }
       updateUserProfile({
         name: payload.full_name || user.name,
         country: payload.country,
         major: payload.major,
+        about: about.trim(),
+        avatarData: avatarData || '',
       })
 
       toast('Profile updated successfully ✅', 'success')
@@ -91,9 +89,6 @@ export default function Profile() {
     reader.onload = () => {
       const nextAvatar = typeof reader.result === 'string' ? reader.result : ''
       setAvatarData(nextAvatar)
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(avatarStorageKey, nextAvatar)
-      }
       toast('Profile photo updated.', 'success')
     }
     reader.readAsDataURL(file)

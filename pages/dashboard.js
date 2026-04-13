@@ -86,6 +86,7 @@ export default function Dashboard() {
             <div><span>Country</span><strong>{user.country || 'Not set'}</strong></div>
             <div><span>Major</span><strong>{user.major || 'Not set'}</strong></div>
           </div>
+          {user.about && <div className="profile-quick-about">{user.about}</div>}
         </div>
 
 
