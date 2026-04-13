@@ -70,6 +70,24 @@ export default function Dashboard() {
           <button className="btn btn-primary btn-sm" onClick={() => router.push('/chatbot')}>Ask Maya</button>
         </div>
 
+        <div className="profile-quick-card">
+          <div className="profile-quick-head">
+            <div>
+              <div className="profile-quick-title">Your Profile</div>
+              <div className="profile-quick-sub">Make sure your name and details are up to date.</div>
+            </div>
+            <button className="btn btn-outline btn-sm" onClick={() => router.push('/profile')}>
+              <i className="fas fa-user-pen" /> Edit Profile
+            </button>
+          </div>
+          <div className="profile-quick-grid">
+            <div><span>Name</span><strong>{user.name || 'Not set'}</strong></div>
+            <div><span>Email</span><strong>{user.email}</strong></div>
+            <div><span>Country</span><strong>{user.country || 'Not set'}</strong></div>
+            <div><span>Major</span><strong>{user.major || 'Not set'}</strong></div>
+          </div>
+        </div>
+
 
         {myListings.length > 0 && (
           <div style={{marginTop:'2.5rem'}}>

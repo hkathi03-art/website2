@@ -19,6 +19,7 @@ export default function Sidebar({ open, onClose }) {
 
   const baseItems = [
     { icon:'fa-house',         label:'Home',      href:'/' },
+    { icon:'fa-user',          label:'Profile',   href:'/profile' },
     { icon:'fa-gauge',         label:'Dashboard', href:'/dashboard' },
     { icon:'fa-building',      label:'Housing',   href:'/housing' },
     { icon:'fa-user-group',    label:'Mentorship',href:'/mentorship' },

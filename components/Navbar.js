@@ -16,6 +16,7 @@ export default function Navbar({ onHamburger, sidebarCollapsed = false }) {
 
   const navLinks = [
     { href:'/',           label:'Home',       icon:'fa-house',          active: page === 'home' },
+    { href:'/profile',    label:'Profile',    icon:'fa-user',           active: page === 'profile' },
     { href:'/admin',      label:'Admin',      icon:'fa-user-shield',    active: page === 'admin' },
     { href:'/housing',    label:'Housing',    icon:'fa-building',       active: page === 'housing' },
     { href:'/mentorship', label:'Mentorship', icon:'fa-user-group',     active: page === 'mentorship' },
@@ -72,9 +73,9 @@ export default function Navbar({ onHamburger, sidebarCollapsed = false }) {
 
         {user ? (
           <>
-            <div className="user-badge" onClick={() => router.push('/dashboard')}>
+            <div className="user-badge" onClick={() => router.push('/profile')}>
               <div className="user-av">{userInitial}</div>
-              <span>{firstName.toLowerCase()}</span>
+              <span>{firstName}</span>
             </div>
             <button className="btn-signout" onClick={handleSignOut}>Sign Out</button>
           </>

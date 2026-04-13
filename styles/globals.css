@@ -387,6 +387,14 @@ body.sb-collapsed .main-wrap{margin-left:0!important}
 [data-theme="dark"] .shortcut:hover{background:rgba(245,197,24,.1)}
 .shortcut h4{font-weight:700;font-size:.88rem;color:var(--text);margin:.45rem 0 .18rem}
 .shortcut p{font-size:.73rem;color:var(--text3)}
+.profile-quick-card{margin-top:1.3rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.05rem 1.15rem;box-shadow:var(--shadow-sm)}
+.profile-quick-head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:.8rem}
+.profile-quick-title{font-size:.9rem;font-weight:800;color:var(--text)}
+.profile-quick-sub{font-size:.76rem;color:var(--text3)}
+.profile-quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+.profile-quick-grid span{display:block;font-size:.67rem;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);margin-bottom:.12rem}
+.profile-quick-grid strong{display:block;font-size:.84rem;color:var(--text);font-weight:700;word-break:break-word}
+@media(max-width:800px){.profile-quick-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:800px){.kpi-grid{grid-template-columns:repeat(2,1fr)}.shortcuts-grid{grid-template-columns:repeat(2,1fr)}}
 
 /* ── ADMIN DASHBOARD ────────────────────── */
@@ -411,6 +419,18 @@ body.sb-collapsed .main-wrap{margin-left:0!important}
 .country-pill strong{font-size:.72rem;background:var(--yellow);color:#111;border-radius:999px;padding:.15rem .42rem}
 [data-theme="dark"] .country-pill{background:rgba(245,197,24,.1)}
 @media(max-width:980px){.admin-grid{grid-template-columns:1fr}}
+
+/* ── PROFILE ───────────────────────────── */
+.profile-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:1.4rem;box-shadow:var(--shadow-sm)}
+.profile-avatar-wrap{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.profile-avatar{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--teal));color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.5rem;overflow:hidden}
+.profile-avatar img{width:100%;height:100%}
+.profile-upload-btn{font-size:.78rem!important}
+.profile-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.profile-about{grid-column:1/-1}
+.profile-about textarea{resize:vertical;min-height:110px}
+.profile-actions{margin-top:.6rem;display:flex;justify-content:flex-end;gap:.6rem;flex-wrap:wrap}
+@media(max-width:760px){.profile-form-grid{grid-template-columns:1fr}}
 
 /* ── HOUSING ─────────────────────────────── */
 .housing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem}
