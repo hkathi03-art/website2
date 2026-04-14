@@ -28,7 +28,7 @@ export default function Home() {
     if (heroSlides.length <= 1) return undefined
     const rotateTimer = window.setInterval(() => {
       setHeroIndex((current) => (current + 1) % heroSlides.length)
-    }, 10000)
+    }, 15000)
     return () => window.clearInterval(rotateTimer)
   }, [heroSlides.length])
 
