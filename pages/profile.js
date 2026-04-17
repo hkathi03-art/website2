@@ -108,6 +108,22 @@ export default function Profile() {
       </section>
 
       <div className="page-body">
+        <div className="profile-card" style={{ marginBottom: '1rem' }}>
+          <div className="profile-quick-head" style={{ marginBottom: '.8rem' }}>
+            <div>
+              <div className="profile-quick-title">Profile Preview</div>
+              <div className="profile-quick-sub">This is how your details appear across the portal.</div>
+            </div>
+          </div>
+          <div className="profile-quick-grid">
+            <div><span>Name</span><strong>{form.fullName || 'Not set'}</strong></div>
+            <div><span>Email</span><strong>{form.email || 'Not set'}</strong></div>
+            <div><span>Country</span><strong>{form.country || 'Not set'}</strong></div>
+            <div><span>Major</span><strong>{form.major || 'Not set'}</strong></div>
+          </div>
+          {about && <div className="profile-quick-about">{about}</div>}
+        </div>
+
         <div className="profile-card">
           <div className="profile-avatar-wrap">
             <div className="profile-avatar">
